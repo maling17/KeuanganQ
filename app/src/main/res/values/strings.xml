@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">KeuanganQ</string>
+    <string name="title">KeuanganQ</string>
+    <string name="keuangan_kresna">Keuangan Kresna</string>
+    <string name="rp">Rp</string>
+    <string name="_1000_000">1000.000</string>
+    <string name="tersisa_20_hari_lagi_sebelum_bulan_berganti">Tersisa 20 hari lagi sebelum bulan berganti</string>
+    <string name="uang_n_masuk">Uang\n Masuk</string>
+    <string name="uang_n_keluar">Uang\n Keluar</string>
+    <string name="history">History</string>
+    <string name="masuk">Masuk</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="uang_bulanan">Uang Bulanan</string>
+    <string name="rp1000_000">Rp1000.000</string>
+    <string name="uang">Uang</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="tambah">Tambah</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="dd_mm_yyyy">dd-mm-yyyy</string>
+</resources>

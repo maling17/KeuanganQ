@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgcolor"
+    tools:context=".MainActivity">
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:umanoPanelHeight="270dp"
+        app:umanoScrollableView="@id/ll_history"
+        app:umanoShadowHeight="4dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/muli"
+                    android:text="@string/title"
+                    android:textColor="#fff"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <LinearLayout
+                    android:id="@+id/ll_dompet"
+                    android:layout_width="323dp"
+                    android:layout_height="195dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="45dp"
+                    android:background="@drawable/cardtextshape"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:ignore="MissingConstraints">
+
+                    <TextView
+                        android:id="@+id/tv_nama_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/muli"
+                        android:text="@string/keuangan_kresna"
+                        android:textColor="@color/bgcolor"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/muli"
+                        android:text="@string/rp"
+                        android:textColor="@color/bgcolor"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/tv_uang_skrg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/muli"
+                        android:textColor="@color/biru"
+                        android:textSize="35sp" />
+
+                    <!--    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/muli"
+                            android:text="@string/tersisa_20_hari_lagi_sebelum_bulan_berganti"
+                            android:textColor="@color/bgcolor"
+                            android:textSize="11sp"
+                            tools:ignore="SmallSp" />-->
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_uang_masuk"
+                    android:layout_width="101dp"
+                    android:layout_height="57dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/buttontextshape"
+                    android:fontFamily="@font/muli"
+                    android:text="@string/uang_n_masuk"
+                    android:textColor="#fff"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_dompet"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/btn_uang_keluar"
+                    android:layout_width="101dp"
+                    android:layout_height="57dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="60dp"
+                    android:background="@drawable/buttontextshape"
+                    android:fontFamily="@font/muli"
+                    android:text="@string/uang_n_keluar"
+                    android:textColor="#fff"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.974"
+                    app:layout_constraintStart_toEndOf="@+id/btn_uang_masuk"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_dompet"
+                    tools:ignore="MissingConstraints" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/biru">
+
+            <ScrollView
+                android:id="@+id/ll_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card2textshape"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/muli"
+                        android:text="@string/history"
+                        android:textColor="#fff"
+                        android:textSize="20sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--   <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>-->
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+
+</RelativeLayout>
