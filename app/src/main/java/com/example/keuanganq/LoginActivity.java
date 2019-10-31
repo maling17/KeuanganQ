@@ -1,5 +1,6 @@
 package com.example.keuanganq;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,11 +20,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String my_shared_preferences = "my_shared_preferences";
+    public static final String session_status = "session_status";
     DatabaseReference reference;
-    private EditText etUsername;
-    private EditText etPassword;
     String USERNAME_KEY = "usernamekey";
     String username_key = "";
+    Boolean session = false;
+    private EditText etUsername;
+    private EditText etPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,14 @@ public class LoginActivity extends AppCompatActivity {
 
         Button btnLogin = findViewById(R.id.btn_login);
         Button btnRegister = findViewById(R.id.btn_register);
+        SharedPreferences sharedpreferences = getSharedPreferences(my_shared_preferences, Context.MODE_PRIVATE);
+        session = sharedpreferences.getBoolean(session_status, false);
 
+        if (session) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            finish();
+            startActivity(intent);
+        }
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

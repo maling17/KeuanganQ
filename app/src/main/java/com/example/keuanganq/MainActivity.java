@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -70,6 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(MainActivity.this);
         rvHistory.setLayoutManager(layoutManager);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(LoginActivity.session_status, false);
+        if (LoginActivity.session_status == "false") {
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
+
+        }
+
 
         historylist = new ArrayList<HistoryList>();
 
