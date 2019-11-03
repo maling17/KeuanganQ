@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseRecyclerAdapter<HistoryList, HistoryAdapter> mAdapter;
     private LinearLayoutManager layoutManager;
+    private LinearLayout llDompet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,13 @@ public class MainActivity extends AppCompatActivity {
         Button btnUangMasuk = findViewById(R.id.btn_uang_masuk);
         Button btnUangKeluar = findViewById(R.id.btn_uang_keluar);
 
+        llDompet = findViewById(R.id.ll_dompet);
+
 
         layoutManager = new LinearLayoutManager(MainActivity.this);
         rvHistory.setLayoutManager(layoutManager);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, MODE_PRIVATE);
+       /* SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(LoginActivity.session_status, false);
         if (LoginActivity.session_status == "false") {
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
 
-        }
+        }*/
 
 
         historylist = new ArrayList<HistoryList>();
@@ -108,6 +112,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //menampilkan popUp dialog
                 PopDialogMasuk();
+            }
+        });
+
+        //Pindah ke Profile Activity
+        llDompet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profile = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(profile);
             }
         });
 
