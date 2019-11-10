@@ -1,5 +1,6 @@
 package com.example.keuanganq;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,12 +38,16 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_password);
 
 
-        Button btnLogin = findViewById(R.id.btn_login);
-        Button btnRegister = findViewById(R.id.btn_register);
+        final Button btnLogin = findViewById(R.id.btn_login);
+        final Button btnRegister = findViewById(R.id.btn_register);
         btnLogin.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
 
+                btnLogin.setEnabled(false);
+                btnLogin.setText("Loading");
+                btnRegister.setEnabled(false);
 
                 String username = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
@@ -68,7 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent Login = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(Login);
                             } else {
+                                btnLogin.setEnabled(true);
+                                btnLogin.setText("Login");
                                 Toast.makeText(getApplicationContext(), "Password Salah", Toast.LENGTH_LONG).show();
+
                             }
 
 

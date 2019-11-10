@@ -55,7 +55,6 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/muli"
-                        android:text="@string/keuangan_kresna"
                         android:textColor="@color/bgcolor"
                         android:textSize="25sp" />
 

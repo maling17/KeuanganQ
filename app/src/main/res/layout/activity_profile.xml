@@ -9,7 +9,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:background="#f4f4f4"
         tools:ignore="MissingConstraints">
@@ -21,6 +21,7 @@
             tools:ignore="MissingConstraints">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginBottom="100dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -196,13 +197,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/cv_pemasukan">
 
                     <LinearLayout
-                        android:id="@+id/btn_all_profil"
+
                         android:layout_width="81dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/btn_all_profil"
                             android:layout_width="81dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -227,7 +229,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/btn_masuk_profil"
                         android:layout_width="81dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
@@ -235,6 +236,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/btn_masuk_profil"
                             android:layout_width="100dp"
 
                             android:layout_height="match_parent"
@@ -260,13 +262,14 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/btn_keluar_profil"
+
                         android:layout_width="81dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/btn_keluar_profil"
                             android:layout_width="90dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -287,6 +290,8 @@
                     </LinearLayout>
                 </LinearLayout>
 
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_history_profile"
                     android:layout_width="match_parent"
@@ -296,6 +301,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 
                 <Button
                     android:id="@+id/btn_logout"

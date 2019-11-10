@@ -119,7 +119,11 @@ public class MainActivity extends AppCompatActivity {
         llDompet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String Nama=tvNama.getText().toString();
+                String Uang=tvUangSkrg.getText().toString();
                 Intent profile = new Intent(MainActivity.this, ProfileActivity.class);
+                profile.putExtra("nama",Nama);
+                profile.putExtra("uang",Uang);
                 startActivity(profile);
             }
         });
