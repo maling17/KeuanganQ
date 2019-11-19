@@ -2,16 +2,19 @@ package com.example.keuanganq;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +34,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvNama;
     private SwipeRefreshLayout srlMain;
     private HistoryAdapter adapter;
-
+    SimpleDateFormat dateFormatter;
 
     private FirebaseRecyclerAdapter<HistoryList, HistoryAdapter> mAdapter;
     private LinearLayoutManager layoutManager;
     private LinearLayout llDompet;
+    private DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         rvHistory = findViewById(R.id.rv_history);
         tvUangSkrg = findViewById(R.id.tv_uang_skrg);
         tvNama = findViewById(R.id.tv_nama_user);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        srlMain = findViewById(R.id.srl_main);
 
 
         Button btnUangMasuk = findViewById(R.id.btn_uang_masuk);
@@ -76,19 +85,25 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(MainActivity.this);
         rvHistory.setLayoutManager(layoutManager);
 
-       /* SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(LoginActivity.session_status, false);
-        if (LoginActivity.session_status == "false") {
-
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-
-
-        }*/
-
 
         historylist = new ArrayList<HistoryList>();
+
+
+        srlMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                final Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserKeuanganQ();
+                        if (srlMain.isRefreshing()){
+                            srlMain.setRefreshing(false);
+                        }
+                    }
+                },2000);
+            }
+        });
 
 
         // untuk tampil recylcer view
@@ -143,6 +158,18 @@ public class MainActivity extends AppCompatActivity {
         tanggal_masuk = dialog.findViewById(R.id.et_tanggal_masuk);
         ket_masuk = dialog.findViewById(R.id.et_keterangan_masuk);
         Button btnPop = dialog.findViewById(R.id.btn_tambah_masuk);
+        Button btnTglMsk=dialog.findViewById(R.id.btn_tanggal_masuk);
+
+        tanggal_masuk.setEnabled(false);
+
+        btnTglMsk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateDialog();
+            }
+        });
+
+
 
         btnPop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,9 +190,17 @@ public class MainActivity extends AppCompatActivity {
         tanggal_keluar = dialog.findViewById(R.id.et_tanggal_keluar);
         ket_keluar = dialog.findViewById(R.id.et_keterangan_keluar);
         etUangkeluar = dialog.findViewById(R.id.et_uang_keluar);
-
+        Button btnTanggalKeluar=dialog.findViewById(R.id.btn_tanggal_keluar);
         Button btnPop = dialog.findViewById(R.id.btn_tambah_keluar);
 
+        tanggal_keluar.setEnabled(false);
+
+        btnTanggalKeluar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateDialogKeluar();
+            }
+        });
         btnPop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
         int uangSkrg = Integer.parseInt(tvUangSkrg.getText().toString());
         final String tanggalMasuk = tanggal_masuk.getText().toString();
         final String ketMasuk = ket_masuk.getText().toString();
-        final int uangMasuk = Integer.parseInt(etUangMasuk.getText().toString());
+        final int uangMasuk = Integer.parseInt(String.valueOf(etUangMasuk.getText()));
 
 
         uangSkrg = uangSkrg + uangMasuk;
@@ -264,13 +299,15 @@ public class MainActivity extends AppCompatActivity {
         int uangSkrg = Integer.parseInt(tvUangSkrg.getText().toString());
         final String tanggalKeluar = tanggal_keluar.getText().toString();
         final String ketKeluar = ket_keluar.getText().toString();
-        final int uangKeluar = Integer.parseInt(etUangkeluar.getText().toString());
+        final int uangKeluar = Integer.parseInt(String.valueOf(etUangkeluar.getText()));
+
         uangSkrg = uangSkrg - uangKeluar;
         final String Uang = String.valueOf(uangSkrg);
         final String UangString = String.valueOf(uangKeluar);
         tvUangSkrg.setText(Uang);
 
         final String UangSkrg = tvUangSkrg.getText().toString();
+
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users")
                 .child(username_key_new)
@@ -300,8 +337,8 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvNama.setText("Keuangan " + Objects.requireNonNull(dataSnapshot.child("username").getValue()).toString());
-                tvUangSkrg.setText(Objects.requireNonNull(dataSnapshot.child("uang_skrg").getValue()).toString());
+                tvNama.setText("Keuangan " + dataSnapshot.child("username").getValue());
+                tvUangSkrg.setText(""+dataSnapshot.child("uang_skrg").getValue());
             }
 
             @Override
@@ -370,5 +407,84 @@ public class MainActivity extends AppCompatActivity {
     }
     //[End]
 
+    private void showDateDialogKeluar(){
+
+        /**
+         * Calendar untuk mendapatkan tanggal sekarang
+         */
+        Calendar newCalendar = Calendar.getInstance();
+
+        /**
+         * Initiate DatePicker dialog
+         */
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                /**
+                 * Method ini dipanggil saat kita selesai memilih tanggal di DatePicker
+                 */
+
+                /**
+                 * Set Calendar untuk menampung tanggal yang dipilih
+                 */
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+
+                /**
+                 * Update TextView dengan tanggal yang kita pilih
+                 */
+
+                tanggal_keluar.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        /**
+         * Tampilkan DatePicker dialog
+         */
+        datePickerDialog.show();
+    }
+
+    private void showDateDialog(){
+
+        /**
+         * Calendar untuk mendapatkan tanggal sekarang
+         */
+        Calendar newCalendar = Calendar.getInstance();
+
+        /**
+         * Initiate DatePicker dialog
+         */
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                /**
+                 * Method ini dipanggil saat kita selesai memilih tanggal di DatePicker
+                 */
+
+                /**
+                 * Set Calendar untuk menampung tanggal yang dipilih
+                 */
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+
+                /**
+                 * Update TextView dengan tanggal yang kita pilih
+                 */
+
+                tanggal_masuk.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        /**
+         * Tampilkan DatePicker dialog
+         */
+        datePickerDialog.show();
+    }
 }
 

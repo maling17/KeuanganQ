@@ -16,6 +16,10 @@
         app:umanoScrollableView="@id/ll_history"
         app:umanoShadowHeight="4dp">
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -125,6 +129,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

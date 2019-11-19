@@ -20,21 +20,38 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/et_tanggal_masuk"
-        android:layout_width="275dp"
-        android:hint="@string/dd_mm_yyyy"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/edittextshape"
-        android:inputType="date"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:ignore="Autofill,LabelFor" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_tanggal_masuk"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edittextshape"
+            android:hint="@string/dd_mm_yyyy"
+            android:inputType="date"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:ignore="Autofill,LabelFor" />
+
+        <Button
+            android:id="@+id/btn_tanggal_masuk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttontextshape"
+            android:text="Tanggal"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            android:textColor="#fff" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textView3"
@@ -86,11 +103,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittextshape"
+        android:gravity="left|top"
         android:inputType="textMultiLine"
         android:lines="6"
         android:maxLines="10"
         android:minLines="4"
-        android:gravity="left|top"
         android:paddingHorizontal="3dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"

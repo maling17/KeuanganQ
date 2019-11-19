@@ -1,8 +1,12 @@
 package com.example.keuanganq;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +19,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
     String USERNAME_KEY = "usernamekey";
@@ -39,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout btnLl_all, btn_masuk, btn_keluar;
     private TextView tvNama;
     private TextView tvUang;
+    private SwipeRefreshLayout srlProfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
         Button btnLogout = findViewById(R.id.btn_logout);
         tvNama = findViewById(R.id.tv_nama_user_profile);
         tvUang = findViewById(R.id.tv_uang_skrg_profile);
-
+        Button btnReset = findViewById(R.id.btn_reset);
+        srlProfil = findViewById(R.id.srl_profile);
 
         layoutManager = new LinearLayoutManager(ProfileActivity.this);
 
@@ -64,21 +75,69 @@ public class ProfileActivity extends AppCompatActivity {
         historylist = new ArrayList<HistoryList>();
 
 
-        String Nama = getIntent().getStringExtra("nama");
+       /* String Nama = getIntent().getStringExtra("nama");
         String Uang = getIntent().getStringExtra("uang");
 
         tvNama.setText(Nama);
-        tvUang.setText(Uang);
+        tvUang.setText(Uang);*/
 
-        tampilMasukHistory();
+       UserKeuanganQ();
+
+        srlProfil.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                final Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserKeuanganQ();
+                        if (srlProfil.isRefreshing()){
+                            srlProfil.setRefreshing(false);
+                        }
+                    }
+                },2000);
+            }
+        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logOut();
-                finish();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
+
+                // set title dialog
+                alertDialogBuilder.setTitle("Apakah yakin ingin Log Out?");
+
+                // set pesan dari dialog
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // jika tombol diklik, maka akan menutup activity ini
+                                logOut();
+                                finish();
+
+                            }
+                        })
+                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // jika tombol ini diklik, akan menutup dialog
+                                // dan tidak terjadi apa2
+                                dialog.cancel();
+                            }
+                        });
+
+                // membuat alert dialog dari builder
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // menampilkan alert dialog
+                alertDialog.show();
             }
+
         });
+
+
+
+
 
         btnLl_all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,8 +163,46 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
 
-    }
+                // set title dialog
+                alertDialogBuilder.setTitle("Yakin ingin Menghapus History dan Uang?");
+
+                // set pesan dari dialog
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // jika tombol diklik, maka akan menutup activity ini
+                                ResetData();
+                                ResetUang();
+
+                            }
+                        })
+                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // jika tombol ini diklik, akan menutup dialog
+                                // dan tidak terjadi apa2
+                                dialog.cancel();
+                            }
+                        });
+
+                // membuat alert dialog dari builder
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // menampilkan alert dialog
+                alertDialog.show();
+            }
+
+        });
+
+            }
+
+
+
 
     public void tampilHistory() {
         reference = FirebaseDatabase.getInstance().getReference();
@@ -257,6 +354,35 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent Login = new Intent(ProfileActivity.this, LoginActivity.class);
         startActivity(Login);
+
+    }
+
+    public void ResetData() {
+        reference4 = FirebaseDatabase.getInstance().getReference().getRoot().child("Users").child(username_key_new).child("history");
+        reference4.setValue(null);
+
+    }
+
+    public void ResetUang() {
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(username_key_new).child("uang_skrg");
+        reference.setValue("0");
+    }
+
+    public void UserKeuanganQ() {
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(username_key_new);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tvNama.setText("Keuangan " + Objects.requireNonNull(dataSnapshot.child("username").getValue()).toString());
+                tvUang.setText(Objects.requireNonNull(dataSnapshot.child("uang_skrg").getValue()).toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }

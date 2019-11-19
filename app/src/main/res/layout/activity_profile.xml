@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/srl_profile"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -47,9 +48,8 @@
                         android:fontFamily="@font/muli"
                         android:text="@string/keuangan_kresna"
                         android:textColor="#fff"
-                        android:textSize="40sp"
+                        android:textSize="35sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.493"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
                         android:fontFamily="@font/muli"
                         android:text="@string/rp"
                         android:textColor="#fff"
-                        android:textSize="35sp"
+                        android:textSize="30sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_nama_user_profile" />
@@ -75,7 +75,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/muli"
                         android:textColor="#fff"
-                        android:textSize="45sp"
+                        android:textSize="40sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.498"
                         app:layout_constraintStart_toStartOf="parent"
@@ -300,9 +300,36 @@
                     android:background="@color/biru"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli"
+                    android:text="Masih Dalam Tahap Pengerjaan"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_history_profile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/rv_history_profile" />
+
+                <Button
+                    android:id="@+id/btn_reset"
+                    android:layout_width="240dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/buttontextshape"
+                    android:fontFamily="@font/muli"
+                    android:text="Reset"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_history_profile" />
                 <Button
                     android:id="@+id/btn_logout"
                     android:layout_width="240dp"
@@ -317,7 +344,7 @@
                     android:textSize="25sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_history_profile" />
+                    app:layout_constraintTop_toBottomOf="@+id/btn_reset" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -325,4 +352,4 @@
     </ScrollView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
