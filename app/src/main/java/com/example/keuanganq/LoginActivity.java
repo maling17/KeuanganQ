@@ -82,6 +82,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Data tidak ada", Toast.LENGTH_LONG).show();
+                            btnLogin.setEnabled(true);
+                            btnLogin.setText("Login");
                         }
                     }
 
@@ -100,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(Register);
             }
         });
-
 
     }
 }

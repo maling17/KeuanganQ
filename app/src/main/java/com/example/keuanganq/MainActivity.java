@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         //mengambil username local
         getUsernameLocal();
 
+
         rvHistory = findViewById(R.id.rv_history);
         tvUangSkrg = findViewById(R.id.tv_uang_skrg);
         tvNama = findViewById(R.id.tv_nama_user);
@@ -275,14 +276,16 @@ public class MainActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference().child("Users")
                 .child(username_key_new)
                 .child("history")
-                .child(tanggalMasuk);
+                .push();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().child("tanggal").setValue(tanggalMasuk);
-                dataSnapshot.getRef().child("arus_uang").setValue("Masuk");
-                dataSnapshot.getRef().child("ket").setValue(ketMasuk);
-                dataSnapshot.getRef().child("uang").setValue(UangString);
+
+                    dataSnapshot.getRef().child("tanggal").setValue(tanggalMasuk);
+                    dataSnapshot.getRef().child("arus_uang").setValue("Masuk");
+                    dataSnapshot.getRef().child("ket").setValue(ketMasuk);
+                    dataSnapshot.getRef().child("uang").setValue(UangString);
+
             }
 
             @Override
@@ -312,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference().child("Users")
                 .child(username_key_new)
                 .child("history")
-                .child(tanggalKeluar);
+                .push();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -366,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull HistoryAdapter historyAdapter, int i, @NonNull HistoryList historyList) {
 
                 historyAdapter.bindToHistory(historyList);
+
 
             }
 
@@ -485,6 +489,7 @@ public class MainActivity extends AppCompatActivity {
          * Tampilkan DatePicker dialog
          */
         datePickerDialog.show();
+
     }
 }
 
